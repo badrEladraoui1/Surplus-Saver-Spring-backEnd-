@@ -7,6 +7,7 @@ import com.example.SurplusSaver__backEnd.dao.repositories.UserRepository;
 import com.example.SurplusSaver__backEnd.exceptions.SurplusApiException;
 import com.example.SurplusSaver__backEnd.payload.LoginDto;
 import com.example.SurplusSaver__backEnd.payload.SignUpDto;
+import com.example.SurplusSaver__backEnd.security.JwtTokenProvider;
 import com.example.SurplusSaver__backEnd.services.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,19 +29,20 @@ public class AuthServiceImpl implements AuthService {
     private UserRepository userRepository;
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
+    private JwtTokenProvider jwtTokenProvider;
 
 
     public AuthServiceImpl(AuthenticationManager authenticationManager,
                            UserRepository userRepository,
                            RoleRepository roleRepository,
-                           PasswordEncoder passwordEncoder
-                           //JwtTokenProvider jwtTokenProvider
+                           PasswordEncoder passwordEncoder,
+                           JwtTokenProvider jwtTokenProvider
     ) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
-        //this.jwtTokenProvider = jwtTokenProvider;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @Override
@@ -51,8 +53,9 @@ public class AuthServiceImpl implements AuthService {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        // return String token = jwtTokenProvider.generateToken(authentication); // for after ....
-        return "User signed-in successfully!.";
+        String token = jwtTokenProvider.generateToken(authentication);
+        return token;
+//        return "User signedIn successfully!.";
     }
 
     @Override
