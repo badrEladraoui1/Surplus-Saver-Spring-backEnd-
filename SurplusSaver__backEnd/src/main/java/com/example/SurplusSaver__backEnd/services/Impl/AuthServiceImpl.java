@@ -58,14 +58,11 @@ public class AuthServiceImpl implements AuthService {
 //        return "User signedIn successfully!.";
     }
 
-    @Override
-    public String signup(SignUpDto signUpDto) {
-        // add check for username exists in database
+    public String signup(SignUpDto signUpDto, String role) {
         if (userRepository.existsByUsername(signUpDto.getUsername())) {
             throw new SurplusApiException(HttpStatus.BAD_REQUEST, "Username is already exists!.");
         }
 
-        // add check for email exists in database
         if (userRepository.existsByEmail(signUpDto.getEmail())) {
             throw new SurplusApiException(HttpStatus.BAD_REQUEST, "Email is already exists!.");
         }
@@ -77,12 +74,40 @@ public class AuthServiceImpl implements AuthService {
         user.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
 
         Set<Role> roles = new HashSet<>();
-        Role userRole = roleRepository.findByName("ROLE_USER").get();
+        Role userRole = roleRepository.findByName("ROLE_" + role.toUpperCase()).get();
         roles.add(userRole);
         user.setRoles(roles);
 
         userRepository.save(user);
 
-        return "User registered successfully!.";
+        return role + " registered successfully!.";
     }
+
+//    @Override
+//    public String signup(SignUpDto signUpDto) {
+//        // add check for username exists in database
+//        if (userRepository.existsByUsername(signUpDto.getUsername())) {
+//            throw new SurplusApiException(HttpStatus.BAD_REQUEST, "Username is already exists!.");
+//        }
+//
+//        // add check for email exists in database
+//        if (userRepository.existsByEmail(signUpDto.getEmail())) {
+//            throw new SurplusApiException(HttpStatus.BAD_REQUEST, "Email is already exists!.");
+//        }
+//
+//        User user = new User();
+//        user.setName(signUpDto.getName());
+//        user.setUsername(signUpDto.getUsername());
+//        user.setEmail(signUpDto.getEmail());
+//        user.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
+//
+//        Set<Role> roles = new HashSet<>();
+//        Role userRole = roleRepository.findByName("ROLE_USER").get();
+//        roles.add(userRole);
+//        user.setRoles(roles);
+//
+//        userRepository.save(user);
+//
+//        return "User registered successfully!.";
+//    }
 }

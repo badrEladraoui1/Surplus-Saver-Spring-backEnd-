@@ -14,12 +14,10 @@ import com.example.SurplusSaver__backEnd.payload.SignUpDto;
 import com.example.SurplusSaver__backEnd.services.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:5173/", maxAge = 3600)
 @RequestMapping("/SurplusSaverApiV1/auth")
 public class AuthController {
 
@@ -40,12 +38,20 @@ public class AuthController {
         return ResponseEntity.ok(jwtAuthResponse);
     }
 
+
     // Build Register REST API
-    @PostMapping(value = { "/signup"})
-    public ResponseEntity<String> register(@RequestBody SignUpDto registerDto){
-        String response = authService.signup(registerDto);
+    @PostMapping(value = { "/signup/{role}"})
+    public ResponseEntity<String> register(@RequestBody SignUpDto registerDto, @PathVariable String role){
+        String response = authService.signup(registerDto, role);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
+
+    // Build Register REST API
+//    @PostMapping(value = { "/signup"})
+//    public ResponseEntity<String> register(@RequestBody SignUpDto registerDto){
+//        String response = authService.signup(registerDto);
+//        return new ResponseEntity<>(response, HttpStatus.CREATED);
+//    }
 }
 
 
