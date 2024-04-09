@@ -35,6 +35,11 @@ public class JwtTokenProvider {
                 .findFirst()
                 .orElse("");
 
+        String id = principal.getId().toString();
+
+        String phone = principal.getPhone();
+
+        String address = principal.getAddress();
 
         Date currentDate = new Date();
 
@@ -42,8 +47,10 @@ public class JwtTokenProvider {
 
         String token = Jwts.builder()
                 .subject(username)
-                .claim("id", principal.getId()) // Include the user's ID as a claim
+                .claim("id", id) // Include the user's ID as a claim
                 .claim("role", role) // Add the role as a claim
+                .claim("phone", phone) // Add the phone as a claim
+                .claim("address", address) // Add the address as a claim
                 .issuedAt(new Date())
                 .expiration(expireDate)
                 .signWith(key())

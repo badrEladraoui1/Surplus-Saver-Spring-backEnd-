@@ -35,7 +35,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         // i think i should pass a list in the third param which contains authorities and other attributes that i will need
 
 // go back to this if i didnt work        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
-        return new CustomUserDetails(user.getId(), user.getUsername(), user.getPassword(), authorities);
+        return new CustomUserDetails(user.getId(), user.getUsername(), user.getPassword(), user.getAddress(), user.getPhone(), authorities);
 
     }
 }

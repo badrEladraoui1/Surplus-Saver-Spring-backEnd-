@@ -17,6 +17,8 @@ public class CustomUserDetails implements UserDetails {
     private Long id;
     private String username;
     private String password;
+    private String address; // Add address field
+    private String phone; // Add phone field
     private Collection<? extends GrantedAuthority> authorities;
 
     // constructor, getters and setters
@@ -55,5 +57,4 @@ public class CustomUserDetails implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
 }
