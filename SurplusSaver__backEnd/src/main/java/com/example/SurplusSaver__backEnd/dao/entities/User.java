@@ -24,7 +24,9 @@ public class User  {
     private String email;
     @Column(nullable = false)
     private String password;
+    @Column(nullable = false)
     private String address;
+    @Column(nullable = false)
     private String phone;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

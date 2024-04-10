@@ -24,7 +24,7 @@ public class JwtTokenProvider {
     private long jwtExpirationDate;
 
     // generate JWT token
-    public String generateToken(Authentication authentication){
+    public String generateToken(Authentication authentication) {
 
         CustomUserDetails principal = (CustomUserDetails) authentication.getPrincipal();
 
@@ -35,7 +35,7 @@ public class JwtTokenProvider {
                 .findFirst()
                 .orElse("");
 
-        String id = principal.getId().toString();
+        Long id = principal.getId();
 
         String phone = principal.getPhone();
 
@@ -59,12 +59,12 @@ public class JwtTokenProvider {
         return token;
     }
 
-    private Key key(){
+    private Key key() {
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
     }
 
     // get username from JWT token
-    public String getUsername(String token){
+    public String getUsername(String token) {
 
         return Jwts.parser()
                 .verifyWith((SecretKey) key())
@@ -82,24 +82,25 @@ public class JwtTokenProvider {
                 .parseSignedClaims(token)
                 .getPayload();
 
-        return claims.get("id", Long.class);
+        String id = claims.get("id", String.class);
+        return Long.parseLong(id);
     }
 
     // validate JWT token
-    public boolean validateToken(String token){
-        try{
+    public boolean validateToken(String token) {
+        try {
             Jwts.parser()
                     .verifyWith((SecretKey) key())
                     .build()
                     .parse(token);
             return true;
-        }catch (MalformedJwtException malformedJwtException){
+        } catch (MalformedJwtException malformedJwtException) {
             throw new SurplusApiException(HttpStatus.BAD_REQUEST, "Invalid JWT Token");
-        }catch (ExpiredJwtException expiredJwtException){
+        } catch (ExpiredJwtException expiredJwtException) {
             throw new SurplusApiException(HttpStatus.BAD_REQUEST, "Expired JWT token");
-        }catch (UnsupportedJwtException unsupportedJwtException){
+        } catch (UnsupportedJwtException unsupportedJwtException) {
             throw new SurplusApiException(HttpStatus.BAD_REQUEST, "Unsupported JWT token");
-        }catch (IllegalArgumentException illegalArgumentException){
+        } catch (IllegalArgumentException illegalArgumentException) {
             throw new SurplusApiException(HttpStatus.BAD_REQUEST, "Jwt claims string is null or empty");
         }
     }

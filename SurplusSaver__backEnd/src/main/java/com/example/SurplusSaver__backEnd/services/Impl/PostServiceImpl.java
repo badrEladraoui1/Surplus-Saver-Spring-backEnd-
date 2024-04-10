@@ -27,12 +27,12 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post createPost(String token, Post post) {
+    public String createPost(String token, Post post) {
         String jwt = token.substring(7); // Remove the "Bearer " prefix
         Long userId = jwtTokenProvider.getUserIdFromToken(jwt);
         User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User not found with id : " + userId));
         post.setUser(user);
         postRepository.save(post);
-        return post;
+        return "Post created successfully!.";
     }
 }

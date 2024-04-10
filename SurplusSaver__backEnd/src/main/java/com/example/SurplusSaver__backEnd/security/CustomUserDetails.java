@@ -21,8 +21,6 @@ public class CustomUserDetails implements UserDetails {
     private String phone; // Add phone field
     private Collection<? extends GrantedAuthority> authorities;
 
-    // constructor, getters and setters
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
