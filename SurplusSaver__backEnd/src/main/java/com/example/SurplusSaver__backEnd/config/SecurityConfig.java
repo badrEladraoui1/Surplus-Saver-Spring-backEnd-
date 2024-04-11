@@ -61,6 +61,7 @@ public class SecurityConfig {
                                 .requestMatchers("/SurplusSaverApiV1/auth/signin").permitAll()
                                 .requestMatchers("/SurplusSaverApiV1/auth/signup/{role}").permitAll()
                                 .requestMatchers("/SurplusSaverApiV1/posts/createPost").hasAuthority("ROLE_RESTAURANT")
+                                .requestMatchers("/SurplusSaverApiV1/posts/viewPersonalPosts").hasAuthority("ROLE_RESTAURANT")
                                 .anyRequest().authenticated()
 
                 ).exceptionHandling( exception -> exception

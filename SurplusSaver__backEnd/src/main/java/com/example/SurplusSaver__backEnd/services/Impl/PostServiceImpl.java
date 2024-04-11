@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PostServiceImpl implements PostService {
 
@@ -34,5 +36,13 @@ public class PostServiceImpl implements PostService {
         post.setUser(user);
         postRepository.save(post);
         return "Post created successfully!.";
+    }
+
+    @Override
+    public List<Post> viewPersonalPosts(String token) {
+        String jwt = token.substring(7); // Remove the "Bearer " prefix
+        Long userId = jwtTokenProvider.getUserIdFromToken(jwt);
+        User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User not found with id : " + userId));
+        return postRepository.findByUser(user);
     }
 }

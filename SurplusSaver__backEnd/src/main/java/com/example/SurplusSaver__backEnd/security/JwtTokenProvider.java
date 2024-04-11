@@ -82,8 +82,8 @@ public class JwtTokenProvider {
                 .parseSignedClaims(token)
                 .getPayload();
 
-        String id = claims.get("id", String.class);
-        return Long.parseLong(id);
+        Integer id = claims.get("id", Integer.class);
+        return id.longValue();
     }
 
     // validate JWT token
