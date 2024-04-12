@@ -1,5 +1,6 @@
 package com.example.SurplusSaver__backEnd.services.Impl;
 
+import com.example.SurplusSaver__backEnd.dao.entities.Item;
 import com.example.SurplusSaver__backEnd.dao.entities.Post;
 import com.example.SurplusSaver__backEnd.dao.entities.User;
 import com.example.SurplusSaver__backEnd.dao.repositories.PostRepository;
@@ -72,11 +73,38 @@ public class PostServiceImpl implements PostService {
         // Update the post data
         existingPost.setRestaurantName(newPostData.getRestaurantName());
         existingPost.setPostDescription(newPostData.getPostDescription());
-        existingPost.setItems(newPostData.getItems());
+
+        // Get the existing items
+        List<Item> existingItems = existingPost.getItems();
+
+        // Clear the collection
+        existingItems.clear();
+
+        // Add the new items
+        existingItems.addAll(newPostData.getItems());
 
         // Save the updated post
         postRepository.save(existingPost);
     }
+
+//    @Override
+//    public void modifyPost(String token, Post newPostData, Long postId) {
+//        String jwt = token.substring(7); // Remove the "Bearer " prefix
+//        Long userId = jwtTokenProvider.getUserIdFromToken(jwt);
+//        User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User not found with id : " + userId));
+//        Post existingPost = postRepository.findById(postId).orElseThrow(() -> new EntityNotFoundException("Post not found with id : " + postId));
+//        if (!existingPost.getUser().getId().equals(user.getId())) {
+//            throw new EntityNotFoundException("Post not found with id : " + postId);
+//        }
+//
+//        // Update the post data
+//        existingPost.setRestaurantName(newPostData.getRestaurantName());
+//        existingPost.setPostDescription(newPostData.getPostDescription());
+//        existingPost.setItems(newPostData.getItems());
+//
+//        // Save the updated post
+//        postRepository.save(existingPost);
+//    }
 
     @Override
     public Post getPostById(String token, Long postId) {

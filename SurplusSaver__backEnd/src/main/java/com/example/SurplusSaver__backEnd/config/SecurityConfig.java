@@ -79,11 +79,13 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorize) ->
                         //authorize.anyRequest().authenticated()
                         authorize.requestMatchers(HttpMethod.GET, "/SurplusSaverApiV1/**").permitAll()
-                                .requestMatchers("/SurplusSaverApiV1/auth/signin").permitAll()
-                                .requestMatchers("/SurplusSaverApiV1/auth/signup/{role}").permitAll()
-                                .requestMatchers("/SurplusSaverApiV1/posts/createPost").hasAuthority("ROLE_RESTAURANT")
+                                .requestMatchers(HttpMethod.POST,"/SurplusSaverApiV1/auth/signin").permitAll()
+                                .requestMatchers(HttpMethod.POST,"/SurplusSaverApiV1/auth/signup/{role}").permitAll()
+                                .requestMatchers(HttpMethod.POST,"/SurplusSaverApiV1/posts/createPost").hasAuthority("ROLE_RESTAURANT")
                                 .requestMatchers(HttpMethod.GET,"/SurplusSaverApiV1/posts/viewPersonalPosts").hasAuthority("ROLE_RESTAURANT")
                                 .requestMatchers(HttpMethod.DELETE,"/SurplusSaverApiV1/posts/deletePost/{id}").hasAuthority("ROLE_RESTAURANT")
+                                .requestMatchers(HttpMethod.PUT,"/SurplusSaverApiV1/posts/modifyPost/{id}").hasAuthority("ROLE_RESTAURANT")
+                                .requestMatchers(HttpMethod.GET,"/SurplusSaverApiV1/posts/getPostById/{id}").hasAuthority("ROLE_RESTAURANT")
                                 .anyRequest().authenticated()
 
                 ).exceptionHandling( exception -> exception
