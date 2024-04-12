@@ -7,6 +7,7 @@ import com.example.SurplusSaver__backEnd.dao.repositories.UserRepository;
 import com.example.SurplusSaver__backEnd.payload.PostDto;
 import com.example.SurplusSaver__backEnd.security.JwtTokenProvider;
 import com.example.SurplusSaver__backEnd.services.PostService;
+import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -45,4 +46,49 @@ public class PostServiceImpl implements PostService {
         User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User not found with id : " + userId));
         return postRepository.findByUser(user);
     }
+
+    @Override
+    public void deletePost(String token, Long postId) {
+        String jwt = token.substring(7); // Remove the "Bearer " prefix
+        Long userId = jwtTokenProvider.getUserIdFromToken(jwt);
+        User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User not found with id : " + userId));
+        Post post = postRepository.findById(postId).orElseThrow(() -> new EntityNotFoundException("Post not found with id : " + postId));
+        if (!post.getUser().getId().equals(user.getId())) {
+            throw new EntityNotFoundException("Post not found with id : " + postId);
+        }
+        postRepository.deleteById(postId);
+    }
+
+    @Override
+    public void modifyPost(String token, Post newPostData, Long postId) {
+        String jwt = token.substring(7); // Remove the "Bearer " prefix
+        Long userId = jwtTokenProvider.getUserIdFromToken(jwt);
+        User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User not found with id : " + userId));
+        Post existingPost = postRepository.findById(postId).orElseThrow(() -> new EntityNotFoundException("Post not found with id : " + postId));
+        if (!existingPost.getUser().getId().equals(user.getId())) {
+            throw new EntityNotFoundException("Post not found with id : " + postId);
+        }
+
+        // Update the post data
+        existingPost.setRestaurantName(newPostData.getRestaurantName());
+        existingPost.setPostDescription(newPostData.getPostDescription());
+        existingPost.setItems(newPostData.getItems());
+
+        // Save the updated post
+        postRepository.save(existingPost);
+    }
+
+    @Override
+    public Post getPostById(String token, Long postId) {
+        String jwt = token.substring(7); // Remove the "Bearer " prefix
+        Long userId = jwtTokenProvider.getUserIdFromToken(jwt);
+        User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User not found with id : " + userId));
+        Post post = postRepository.findById(postId).orElseThrow(() -> new EntityNotFoundException("Post not found with id : " + postId));
+        if (!post.getUser().getId().equals(user.getId())) {
+            throw new EntityNotFoundException("Post not found with id : " + postId);
+        }
+        return post;
+    }
+
+
 }

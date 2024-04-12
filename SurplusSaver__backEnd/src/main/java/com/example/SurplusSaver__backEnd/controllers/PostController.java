@@ -11,6 +11,13 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:5173/", maxAge = 3600)
+//@CrossOrigin(
+//        origins = "http://localhost:5173/",
+//        allowedHeaders = {"Authorization", "Content-Type"},
+//        exposedHeaders = {"Authorization", "Content-Type"},
+//        allowCredentials = "true",
+//        maxAge = 3600
+//)
 @RequestMapping("/SurplusSaverApiV1/posts")
 
 public class PostController {
@@ -34,6 +41,27 @@ public class PostController {
     @GetMapping("/viewPersonalPosts")
     public ResponseEntity<List<Post>> viewPersonalPosts(@RequestHeader("Authorization") String token) {
         List<Post> response = postService.viewPersonalPosts(token);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_RESTAURANT')")
+    @DeleteMapping("/deletePost/{id}")
+    public ResponseEntity<?> deletePost(@RequestHeader("Authorization") String token, @PathVariable Long id) {
+        postService.deletePost(token, id);
+        return new ResponseEntity<>("Post will be deleted in a moment !", HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_RESTAURANT')")
+    @PutMapping("/modifyPost/{id}")
+    public ResponseEntity<?> modifyPost(@RequestHeader("Authorization") String token, @RequestBody Post newPostData, @PathVariable Long id) {
+        postService.modifyPost(token, newPostData, id);
+        return new ResponseEntity<>("Post modified successfully!", HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_RESTAURANT')")
+    @GetMapping("/getPostById/{id}")
+    public ResponseEntity<Post> getPostById(@RequestHeader("Authorization") String token, @PathVariable Long id) {
+        Post response = postService.getPostById(token, id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
