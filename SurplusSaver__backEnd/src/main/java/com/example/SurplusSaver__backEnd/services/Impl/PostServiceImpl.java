@@ -5,7 +5,6 @@ import com.example.SurplusSaver__backEnd.dao.entities.Post;
 import com.example.SurplusSaver__backEnd.dao.entities.User;
 import com.example.SurplusSaver__backEnd.dao.repositories.PostRepository;
 import com.example.SurplusSaver__backEnd.dao.repositories.UserRepository;
-import com.example.SurplusSaver__backEnd.payload.PostDto;
 import com.example.SurplusSaver__backEnd.security.JwtTokenProvider;
 import com.example.SurplusSaver__backEnd.services.PostService;
 import jakarta.persistence.EntityNotFoundException;
@@ -116,6 +115,14 @@ public class PostServiceImpl implements PostService {
             throw new EntityNotFoundException("Post not found with id : " + postId);
         }
         return post;
+    }
+
+    @Override
+    public List<Post> getAllPosts(String token) {
+        String jwt = token.substring(7); // Remove the "Bearer " prefix
+        Long userId = jwtTokenProvider.getUserIdFromToken(jwt);
+        User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User not found with id : " + userId));
+        return postRepository.findAllBy();
     }
 
 

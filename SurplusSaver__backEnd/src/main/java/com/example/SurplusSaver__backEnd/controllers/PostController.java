@@ -65,5 +65,12 @@ public class PostController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_RESTAURANT')")
+    @GetMapping("/getAllPosts")
+    public ResponseEntity<List<Post>> getAllPosts(@RequestHeader("Authorization") String token) {
+        List<Post> response = postService.getAllPosts(token);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
 
 }

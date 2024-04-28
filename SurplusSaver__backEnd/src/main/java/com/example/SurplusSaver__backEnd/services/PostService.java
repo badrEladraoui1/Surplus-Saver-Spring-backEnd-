@@ -11,5 +11,6 @@ public interface PostService {
  void deletePost(String token , Long postId);
  void modifyPost(String token, Post newPostData, Long postId);
  Post getPostById(String token , Long postId);
+ List<Post> getAllPosts(String token);
 
 }
