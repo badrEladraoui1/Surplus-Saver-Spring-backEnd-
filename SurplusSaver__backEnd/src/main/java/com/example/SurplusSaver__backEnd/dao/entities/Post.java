@@ -9,7 +9,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Setter
@@ -25,6 +28,8 @@ public class Post {
     private Long id;
     private String restaurantName;
     private String postDescription;
+    @CreationTimestamp
+    private LocalDateTime postedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -33,6 +38,14 @@ public class Post {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Item> items;
+
+    public String getPostedAt() {
+        if (postedAt == null) {
+            return "undefined"; // or return a default value
+        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return postedAt.format(formatter);
+    }
 }
 
 
