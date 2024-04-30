@@ -44,4 +44,11 @@ public class User  {
     @JsonManagedReference
     private List<Post> posts;
 
+    @ManyToMany
+    @JoinTable(
+            name = "saved_posts",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "post_id"))
+    private List<Post> savedPosts;
+
 }

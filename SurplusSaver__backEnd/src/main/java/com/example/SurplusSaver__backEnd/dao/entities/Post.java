@@ -39,6 +39,9 @@ public class Post {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Item> items;
 
+    @ManyToMany(mappedBy = "savedPosts")
+    private List<User> savedByUsers;
+
     public String getPostedAt() {
         if (postedAt == null) {
             return "undefined"; // or return a default value

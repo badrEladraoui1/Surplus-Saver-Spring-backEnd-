@@ -65,10 +65,24 @@ public class PostController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_RESTAURANT')")
+    @PreAuthorize("hasRole('ROLE_RESTAURANT') || hasRole('ROLE_CONSUMER')")
     @GetMapping("/getAllPosts")
     public ResponseEntity<List<Post>> getAllPosts(@RequestHeader("Authorization") String token) {
         List<Post> response = postService.getAllPosts(token);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_CONSUMER')")
+    @PostMapping("/savePost/{id}")
+    public ResponseEntity<?> savePost(@RequestHeader("Authorization") String token, @PathVariable Long id) {
+        String response = postService.savePost(token, id);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_CONSUMER')")
+    @GetMapping("/getSavedPosts")
+    public ResponseEntity<List<Post>> getSavedPosts(@RequestHeader("Authorization") String token) {
+        List<Post> response = postService.getSavedPosts(token);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

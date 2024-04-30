@@ -12,5 +12,7 @@ public interface PostService {
  void modifyPost(String token, Post newPostData, Long postId);
  Post getPostById(String token , Long postId);
  List<Post> getAllPosts(String token);
+ String savePost(String token, Long postId);
+ List<Post> getSavedPosts(String token);
 
 }
