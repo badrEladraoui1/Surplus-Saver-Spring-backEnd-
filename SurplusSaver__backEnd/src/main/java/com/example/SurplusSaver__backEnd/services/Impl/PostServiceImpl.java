@@ -148,5 +148,21 @@ public class PostServiceImpl implements PostService {
         return user.getSavedPosts();
     }
 
+    @Override
+    public String removeSavedPost(String token, Long postId) {
+        String jwt = token.substring(7); // Remove the "Bearer " prefix
+        Long userId = jwtTokenProvider.getUserIdFromToken(jwt);
+        User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User not found with id : " + userId));
+        Post post = postRepository.findById(postId).orElseThrow(() -> new EntityNotFoundException("Post not found with id : " + postId));
+
+        if (user.getSavedPosts().contains(post)) {
+            user.getSavedPosts().remove(post);
+            userRepository.save(user);
+            return "Post removed from saved posts!";
+        } else {
+            return "Post is not saved!";
+        }
+    }
+
 
 }

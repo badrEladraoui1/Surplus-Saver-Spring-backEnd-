@@ -14,5 +14,5 @@ public interface PostService {
  List<Post> getAllPosts(String token);
  String savePost(String token, Long postId);
  List<Post> getSavedPosts(String token);
-
+ String removeSavedPost(String token, Long postId);
 }

@@ -86,5 +86,12 @@ public class PostController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_CONSUMER')")
+    @DeleteMapping("/removeSavedPost/{id}")
+    public ResponseEntity<?> removeSavedPost(@RequestHeader("Authorization") String token, @PathVariable Long id) {
+        String response = postService.removeSavedPost(token, id);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
 
 }

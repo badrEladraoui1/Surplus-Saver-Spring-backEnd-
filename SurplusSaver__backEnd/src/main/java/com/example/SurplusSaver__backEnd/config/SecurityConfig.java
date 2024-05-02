@@ -89,6 +89,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET,"/SurplusSaverApiV1/posts/getAllPosts").hasAnyAuthority("ROLE_RESTAURANT", "ROLE_CONSUMER")
                                 .requestMatchers(HttpMethod.POST,"/SurplusSaverApiV1/posts/savePost/{id}").hasAuthority("ROLE_CONSUMER")
                                 .requestMatchers(HttpMethod.GET,"/SurplusSaverApiV1/posts/getSavedPosts").hasAuthority("ROLE_CONSUMER")
+                                .requestMatchers(HttpMethod.DELETE,"/SurplusSaverApiV1/posts/removeSavedPost/{id}").hasAuthority("ROLE_CONSUMER")
                                 .anyRequest().authenticated()
 
                 ).exceptionHandling( exception -> exception
