@@ -1,7 +1,9 @@
 package com.example.SurplusSaver__backEnd.controllers;
 
 import com.example.SurplusSaver__backEnd.dao.entities.Post;
+import com.example.SurplusSaver__backEnd.dao.entities.Reaction;
 import com.example.SurplusSaver__backEnd.services.PostService;
+import com.example.SurplusSaver__backEnd.services.ReactionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,9 +25,11 @@ import java.util.List;
 public class PostController {
 
     PostService postService;
+    ReactionService reactionService;
 
-    public PostController(PostService postService) {
+    public PostController(PostService postService , ReactionService reactionService) {
         this.postService = postService;
+        this.reactionService = reactionService;
     }
 
     // create SurplusSaver post rest api
@@ -92,6 +96,4 @@ public class PostController {
         String response = postService.removeSavedPost(token, id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
-
 }
