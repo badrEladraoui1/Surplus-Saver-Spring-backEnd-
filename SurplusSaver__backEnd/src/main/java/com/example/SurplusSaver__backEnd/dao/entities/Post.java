@@ -31,9 +31,9 @@ public class Post {
     @CreationTimestamp
     private LocalDateTime postedAt;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    @JsonBackReference
     private User user;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)

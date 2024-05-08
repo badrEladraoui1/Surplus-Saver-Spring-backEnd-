@@ -37,6 +37,7 @@ public class SecurityConfig {
         this.authenticationEntryPoint = authenticationEntryPoint;
         this.authenticationFilter = authenticationFilter;
     }
+
     @Bean
     public static PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -78,26 +79,31 @@ public class SecurityConfig {
 //        http.csrf(csrf -> csrf.disable()) return this if the above lines does not work
                 .authorizeHttpRequests((authorize) ->
                         //authorize.anyRequest().authenticated()
-                        authorize.requestMatchers(HttpMethod.GET, "/SurplusSaverApiV1/**").permitAll()
-                                .requestMatchers(HttpMethod.POST,"/SurplusSaverApiV1/auth/signin").permitAll()
-                                .requestMatchers(HttpMethod.POST,"/SurplusSaverApiV1/auth/signup/{role}").permitAll()
-                                .requestMatchers(HttpMethod.POST,"/SurplusSaverApiV1/posts/createPost").hasAuthority("ROLE_RESTAURANT")
-                                .requestMatchers(HttpMethod.GET,"/SurplusSaverApiV1/posts/viewPersonalPosts").hasAuthority("ROLE_RESTAURANT")
-                                .requestMatchers(HttpMethod.DELETE,"/SurplusSaverApiV1/posts/deletePost/{id}").hasAuthority("ROLE_RESTAURANT")
-                                .requestMatchers(HttpMethod.PUT,"/SurplusSaverApiV1/posts/modifyPost/{id}").hasAuthority("ROLE_RESTAURANT")
-                                .requestMatchers(HttpMethod.GET,"/SurplusSaverApiV1/posts/getPostById/{id}").hasAuthority("ROLE_RESTAURANT")
-                                .requestMatchers(HttpMethod.GET,"/SurplusSaverApiV1/posts/getAllPosts").hasAnyAuthority("ROLE_RESTAURANT", "ROLE_CONSUMER")
-                                .requestMatchers(HttpMethod.POST,"/SurplusSaverApiV1/posts/savePost/{id}").hasAuthority("ROLE_CONSUMER")
-                                .requestMatchers(HttpMethod.GET,"/SurplusSaverApiV1/posts/getSavedPosts").hasAuthority("ROLE_CONSUMER")
-                                .requestMatchers(HttpMethod.DELETE,"/SurplusSaverApiV1/posts/removeSavedPost/{id}").hasAuthority("ROLE_CONSUMER")
-                                .requestMatchers(HttpMethod.POST,"/SurplusSaverApiV1/posts/{postId}/reactions").hasAuthority("ROLE_CONSUMER")
-                                .requestMatchers(HttpMethod.DELETE,"/SurplusSaverApiV1/posts/{postId}/reactions/{reactionId}").hasAuthority("ROLE_CONSUMER")
-                                .requestMatchers(HttpMethod.GET,"/SurplusSaverApiV1/posts/{postId}/reactions").hasAnyAuthority("ROLE_RESTAURANT", "ROLE_CONSUMER")
+                        authorize
+                                .requestMatchers(HttpMethod.GET, "/SurplusSaverApiV1/**").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/SurplusSaverApiV1/auth/signin").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/SurplusSaverApiV1/auth/signup/{role}").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/SurplusSaverApiV1/posts/createPost").hasAuthority("ROLE_RESTAURANT")
+                                .requestMatchers(HttpMethod.GET, "/SurplusSaverApiV1/posts/viewPersonalPosts").hasAuthority("ROLE_RESTAURANT")
+                                .requestMatchers(HttpMethod.DELETE, "/SurplusSaverApiV1/posts/deletePost/{id}").hasAuthority("ROLE_RESTAURANT")
+                                .requestMatchers(HttpMethod.PUT, "/SurplusSaverApiV1/posts/modifyPost/{id}").hasAuthority("ROLE_RESTAURANT")
+                                .requestMatchers(HttpMethod.GET, "/SurplusSaverApiV1/posts/getPostById/{id}").hasAuthority("ROLE_RESTAURANT")
+                                .requestMatchers(HttpMethod.GET, "/SurplusSaverApiV1/posts/getAllPosts").hasAnyAuthority("ROLE_RESTAURANT", "ROLE_CONSUMER")
+                                .requestMatchers(HttpMethod.POST, "/SurplusSaverApiV1/posts/savePost/{id}").hasAuthority("ROLE_CONSUMER")
+                                .requestMatchers(HttpMethod.GET, "/SurplusSaverApiV1/posts/getSavedPosts").hasAuthority("ROLE_CONSUMER")
+                                .requestMatchers(HttpMethod.DELETE, "/SurplusSaverApiV1/posts/removeSavedPost/{id}").hasAuthority("ROLE_CONSUMER")
+                                .requestMatchers(HttpMethod.POST, "/SurplusSaverApiV1/posts/{postId}/reactions").hasAuthority("ROLE_CONSUMER")
+                                .requestMatchers(HttpMethod.DELETE, "/SurplusSaverApiV1/posts/{postId}/reactions/{reactionId}").hasAuthority("ROLE_CONSUMER")
+                                .requestMatchers(HttpMethod.GET, "/SurplusSaverApiV1/posts/{postId}/reactions").hasAnyAuthority("ROLE_RESTAURANT", "ROLE_CONSUMER")
+                                .requestMatchers(HttpMethod.GET, "/SurplusSaverApiV1/users/getUsersByRole/{role}").hasAnyAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/SurplusSaverApiV1/users/deleteUser/{id}").hasAnyAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/SurplusSaverApiV1/users/profile").hasAnyAuthority("ROLE_RESTAURANT", "ROLE_CONSUMER")
+                                .requestMatchers(HttpMethod.POST, "/SurplusSaverApiV1/users/update").hasAnyAuthority("ROLE_RESTAURANT", "ROLE_CONSUMER")
                                 .anyRequest().authenticated()
 
-                ).exceptionHandling( exception -> exception
+                ).exceptionHandling(exception -> exception
                         .authenticationEntryPoint(authenticationEntryPoint)
-                ).sessionManagement( session -> session
+                ).sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 );
 

@@ -28,9 +28,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String path = request.getRequestURI();
+        return path.startsWith("/images/");
+    }
+
+    @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
+
+        // Check if the request is to the /images/** endpoint
+        String requestURI = request.getRequestURI();
+        if (requestURI.startsWith("/images/")) {
+            // If it is, do nothing and let the request proceed to the next filter
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         // get JWT token from http request
         String token = getTokenFromRequest(request);

@@ -20,8 +20,6 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.Set;
 
-// i should use this after implementing jwtProvider
-
 @Service
 public class AuthServiceImpl implements AuthService {
 
@@ -112,4 +110,16 @@ public class AuthServiceImpl implements AuthService {
 //
 //        return "User registered successfully!.";
 //    }
+
+    @Override
+    public String generateToken(User user) {
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                user.getUsername(), user.getPassword());
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String newToken = jwtTokenProvider.generateToken(authentication);
+        return newToken;
+    }
+
 }

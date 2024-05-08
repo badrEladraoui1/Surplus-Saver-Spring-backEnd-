@@ -32,6 +32,7 @@ public class User  {
     private String address;
     @Column(nullable = false)
     private String phone;
+    private String imagePath;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "users_roles",
@@ -40,8 +41,8 @@ public class User  {
     )
     private Set<Role> roles;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts;
 
     @ManyToMany
@@ -50,5 +51,8 @@ public class User  {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "post_id"))
     private List<Post> savedPosts;
+
+//    @OneToOne(mappedBy = "users_id", cascade = CascadeType.ALL)
+//    private Image profileImage; //mapping with Image entity
 
 }
