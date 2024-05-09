@@ -31,6 +31,9 @@ public class Post {
     @CreationTimestamp
     private LocalDateTime postedAt;
 
+    private String userProfilePictureUrl;
+
+
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/SurplusSaver__backEnd.iml" filepath="$PROJECT_DIR$/.idea/SurplusSaver__backEnd.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SurplusSaver__backEnd/SurplusSaver__backEnd.iml" filepath="$PROJECT_DIR$/SurplusSaver__backEnd/SurplusSaver__backEnd.iml" />
     </modules>
   </component>
 </project>

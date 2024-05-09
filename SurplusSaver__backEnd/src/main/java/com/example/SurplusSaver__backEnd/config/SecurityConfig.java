@@ -99,6 +99,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.DELETE, "/SurplusSaverApiV1/users/deleteUser/{id}").hasAnyAuthority("ROLE_ADMIN")
                                 .requestMatchers(HttpMethod.GET, "/SurplusSaverApiV1/users/profile").hasAnyAuthority("ROLE_RESTAURANT", "ROLE_CONSUMER")
                                 .requestMatchers(HttpMethod.POST, "/SurplusSaverApiV1/users/update").hasAnyAuthority("ROLE_RESTAURANT", "ROLE_CONSUMER")
+                                .requestMatchers(HttpMethod.GET, "/SurplusSaverApiV1/images/{filename:.+}").permitAll()
                                 .anyRequest().authenticated()
 
                 ).exceptionHandling(exception -> exception

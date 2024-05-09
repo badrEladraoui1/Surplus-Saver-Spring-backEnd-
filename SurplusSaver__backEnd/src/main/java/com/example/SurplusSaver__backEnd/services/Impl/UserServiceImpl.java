@@ -175,5 +175,15 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+    @Override
+    public String getUserProfilePictureUrl(String token) {
+        String jwt = token.substring(7); // Remove the "Bearer " prefix
+        Long userId = jwtTokenProvider.getUserIdFromToken(jwt);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with id : " + userId));
+
+        return user.getImagePath();
+    }
+
 
 }

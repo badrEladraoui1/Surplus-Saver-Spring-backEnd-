@@ -4,6 +4,7 @@ import com.example.SurplusSaver__backEnd.dao.entities.Post;
 import com.example.SurplusSaver__backEnd.dao.entities.Reaction;
 import com.example.SurplusSaver__backEnd.services.PostService;
 import com.example.SurplusSaver__backEnd.services.ReactionService;
+import com.example.SurplusSaver__backEnd.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,10 +27,12 @@ public class PostController {
 
     PostService postService;
     ReactionService reactionService;
+    UserService userService;
 
-    public PostController(PostService postService , ReactionService reactionService) {
+    public PostController(PostService postService, ReactionService reactionService, UserService userService) {
         this.postService = postService;
         this.reactionService = reactionService;
+        this.userService = userService;
     }
 
     // create SurplusSaver post rest api
@@ -37,7 +40,21 @@ public class PostController {
     @PreAuthorize("hasRole('ROLE_RESTAURANT')")
     @PostMapping("/createPost")
     public ResponseEntity<?> createPost(@RequestHeader("Authorization") String token, @RequestBody Post post) {
-        String response =  postService.createPost(token, post);
+//        String response =  postService.createPost(token, post);
+//        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        // Get the user's profile picture URL
+        String userProfilePictureUrl = userService.getUserProfilePictureUrl(token);
+
+        if (userProfilePictureUrl == null || userProfilePictureUrl.isEmpty()) {
+            userProfilePictureUrl = "/images/default_restau_image.jpg";
+        }
+
+        // Set the user's profile picture URL in the post
+        post.setUserProfilePictureUrl(userProfilePictureUrl);
+
+        // Create the post
+        String response = postService.createPost(token, post);
+
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 

@@ -116,14 +116,28 @@ public class PostServiceImpl implements PostService {
         }
         return post;
     }
-
     @Override
     public List<Post> getAllPosts(String token) {
         String jwt = token.substring(7); // Remove the "Bearer " prefix
         Long userId = jwtTokenProvider.getUserIdFromToken(jwt);
         User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User not found with id : " + userId));
-        return postRepository.findAllBy();
+        List<Post> posts = postRepository.findAllBy();
+
+        posts.forEach(post -> {
+            if (post.getUserProfilePictureUrl() == null || post.getUserProfilePictureUrl().isEmpty()) {
+                post.setUserProfilePictureUrl("images/default_restau_image.jpg");
+            }
+        });
+
+        return posts;
     }
+//    @Override
+//    public List<Post> getAllPosts(String token) {
+//        String jwt = token.substring(7); // Remove the "Bearer " prefix
+//        Long userId = jwtTokenProvider.getUserIdFromToken(jwt);
+//        User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User not found with id : " + userId));
+//        return postRepository.findAllBy();
+//    }
 
     public String savePost(String token, Long postId) {
         String jwt = token.substring(7); // Remove the "Bearer " prefix

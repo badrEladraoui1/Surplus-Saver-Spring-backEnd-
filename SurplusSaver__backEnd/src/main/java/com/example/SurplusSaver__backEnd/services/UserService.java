@@ -11,4 +11,5 @@ public interface UserService {
     public void deleteUser(String token, Long id);
     public User getUserById(String token);
     public User saveUser(String token, User user);
+    public String getUserProfilePictureUrl(String token);
 }
