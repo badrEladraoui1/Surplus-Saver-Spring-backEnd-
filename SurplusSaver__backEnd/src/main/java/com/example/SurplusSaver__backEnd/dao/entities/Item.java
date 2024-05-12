@@ -23,4 +23,5 @@ public class Item {
     private String itemType;
     private String quantity;
     private String description;
+    private String ItemPictureUrl;
 }

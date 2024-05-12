@@ -61,7 +61,7 @@ public class UserController {
     }
 
     @PostMapping("/update")
-    public ResponseEntity<?> updateUserAndProfile(@RequestHeader("Authorization") String token, @RequestParam("image") MultipartFile image) throws JsonProcessingException {
+    public ResponseEntity<?> updateUserProfilePic(@RequestHeader("Authorization") String token, @RequestParam("image") MultipartFile image) throws JsonProcessingException {
         User user = userService.getUserById(token);
 
         // Check if the user exists

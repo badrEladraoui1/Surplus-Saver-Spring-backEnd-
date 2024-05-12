@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, JwtTokenProvider jwtTokenProvider , RoleRepository roleRepository) {
+    public UserServiceImpl(UserRepository userRepository, JwtTokenProvider jwtTokenProvider, RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.jwtTokenProvider = jwtTokenProvider;
         this.roleRepository = roleRepository;
@@ -32,93 +32,6 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User not found with id : " + userId));
         return userRepository.findAllByRoleName(role);
     }
-
-    //    @Override
-//    public void deleteUser(String token, Long id) {
-//        String jwt = token.substring(7); // Remove the "Bearer " prefix
-//        Long userId = jwtTokenProvider.getUserIdFromToken(jwt);
-//        User user = userRepository.findById(userId)
-//                .orElseThrow(() -> new UsernameNotFoundException("User not found with id : " + userId));
-//
-//        // Remove the association between the User and the Role entities
-//        user.getRoles().clear();
-//        userRepository.save(user);
-//
-//        // Now you can delete the User
-//        userRepository.deleteById(id);
-//    }
-//    @Override
-//    public void deleteUser(String token, Long id) {
-//        String jwt = token.substring(7); // Remove the "Bearer " prefix
-//        Long userId = jwtTokenProvider.getUserIdFromToken(jwt);
-//        User user = userRepository.findById(userId)
-//                .orElseThrow(() -> new UsernameNotFoundException("User not found with id : " + userId));
-//
-//        // Remove the user from each role
-//        user.getRoles().forEach(role -> role.getUsers().remove(user));
-//        userRepository.save(user);
-//
-//        // Now you can delete the User
-//        userRepository.deleteById(id);
-//    }
-
-//    @Override
-//    public void deleteUser(String token, Long id) {
-//        String jwt = token.substring(7); // Remove the "Bearer " prefix
-//        Long userId = jwtTokenProvider.getUserIdFromToken(jwt);
-//        User user = userRepository.findById(userId)
-//                .orElseThrow(() -> new UsernameNotFoundException("User not found with id : " + userId));
-//
-//        // Remove the user from each role
-//        user.getRoles().forEach(role -> {
-//            role.getUsers().remove(user);
-//            if (role.getUsers().isEmpty()) {
-//                roleRepository.delete(role); // delete the role if no users are associated with it
-//            } else {
-//                roleRepository.save(role); // update the role if there are still users associated with it
-//            }
-//        });
-//
-//        // Remove the roles from the user
-//        user.setRoles(null);
-//        userRepository.save(user);
-//
-//        // Flush the changes to the database
-//        userRepository.flush();
-//
-//        // Now you can delete the User
-//        userRepository.deleteById(id);
-//    }
-
-//    @Override
-//    public void deleteUser(String token, Long id) {
-//        String jwt = token.substring(7); // Remove the "Bearer " prefix
-//        Long userId = jwtTokenProvider.getUserIdFromToken(jwt);
-//        User user = userRepository.findById(userId)
-//                .orElseThrow(() -> new UsernameNotFoundException("User not found with id : " + userId));
-//
-//        // Remove the user from each role
-//        user.getRoles().forEach(role -> {
-//            role.getUsers().remove(user);
-//            if (role.getUsers().isEmpty()) {
-//                // delete the association in the users_roles table
-//                roleRepository.deleteAssociationWithUsers(role.getId());
-//                roleRepository.delete(role); // delete the role if no users are associated with it
-//            } else {
-//                roleRepository.save(role); // update the role if there are still users associated with it
-//            }
-//        });
-//
-//        // Remove the roles from the user
-//        user.setRoles(null);
-//        userRepository.save(user);
-//
-//        // Flush the changes to the database
-//        userRepository.flush();
-//
-//        // Now you can delete the User
-//        userRepository.deleteById(id);
-//    }
 
 
     // TODO : THIS NOT WORKING

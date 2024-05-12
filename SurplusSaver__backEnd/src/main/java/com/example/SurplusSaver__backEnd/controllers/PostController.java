@@ -1,7 +1,8 @@
 package com.example.SurplusSaver__backEnd.controllers;
 
+import com.example.SurplusSaver__backEnd.dao.entities.Interest;
 import com.example.SurplusSaver__backEnd.dao.entities.Post;
-import com.example.SurplusSaver__backEnd.dao.entities.Reaction;
+import com.example.SurplusSaver__backEnd.services.InterestService;
 import com.example.SurplusSaver__backEnd.services.PostService;
 import com.example.SurplusSaver__backEnd.services.ReactionService;
 import com.example.SurplusSaver__backEnd.services.UserService;
@@ -28,11 +29,13 @@ public class PostController {
     PostService postService;
     ReactionService reactionService;
     UserService userService;
+    InterestService interestService;
 
-    public PostController(PostService postService, ReactionService reactionService, UserService userService) {
+    public PostController(PostService postService, ReactionService reactionService, UserService userService , InterestService interestService) {
         this.postService = postService;
         this.reactionService = reactionService;
         this.userService = userService;
+        this.interestService = interestService;
     }
 
     // create SurplusSaver post rest api
@@ -43,14 +46,14 @@ public class PostController {
 //        String response =  postService.createPost(token, post);
 //        return new ResponseEntity<>(response, HttpStatus.CREATED);
         // Get the user's profile picture URL
-        String userProfilePictureUrl = userService.getUserProfilePictureUrl(token);
-
-        if (userProfilePictureUrl == null || userProfilePictureUrl.isEmpty()) {
-            userProfilePictureUrl = "/images/default_restau_image.jpg";
-        }
-
-        // Set the user's profile picture URL in the post
-        post.setUserProfilePictureUrl(userProfilePictureUrl);
+//        String userProfilePictureUrl = userService.getUserProfilePictureUrl(token);
+//
+//        if (userProfilePictureUrl == null || userProfilePictureUrl.isEmpty()) {
+//            userProfilePictureUrl = "/images/default_restau_image.jpg";
+//        }
+//
+//        // Set the user's profile picture URL in the post
+//        post.setUserProfilePictureUrl(userProfilePictureUrl);
 
         // Create the post
         String response = postService.createPost(token, post);
@@ -113,4 +116,20 @@ public class PostController {
         String response = postService.removeSavedPost(token, id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @PreAuthorize("hasRole('ROLE_CONSUMER')")
+    @PostMapping("/expressInterest")
+    public ResponseEntity<?> expressInterest(@RequestHeader("Authorization") String token, @RequestBody Interest interest) {
+        // Validate the request
+        if (interest == null || interest.getUserId() == null || interest.getPostId() == null) {
+            return new ResponseEntity<>("Invalid request", HttpStatus.BAD_REQUEST);
+        }
+
+        // Save the Interest object in the database
+        Interest savedInterest = interestService.saveInterest(interest);
+
+        // Return a response to the client
+        return new ResponseEntity<>(savedInterest, HttpStatus.CREATED);
+    }
+
 }
