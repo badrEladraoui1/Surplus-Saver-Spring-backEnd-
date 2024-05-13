@@ -3,6 +3,7 @@ package com.example.SurplusSaver__backEnd.services;
 import com.example.SurplusSaver__backEnd.dao.entities.Interest;
 import com.example.SurplusSaver__backEnd.dao.entities.Post;
 import com.example.SurplusSaver__backEnd.payload.InterestInfoDto;
+import com.example.SurplusSaver__backEnd.payload.InterestWithItemsDto;
 
 import java.util.List;
 
@@ -19,4 +20,6 @@ public interface InterestService {
     boolean acceptInterest(Long interestId);
 
     boolean cancelInterest(Long interestId);
+
+    List<InterestWithItemsDto> getInterestsAndItemsByUserId(String token);
 }

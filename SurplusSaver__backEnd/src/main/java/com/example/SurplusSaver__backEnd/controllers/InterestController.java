@@ -4,6 +4,7 @@ import com.example.SurplusSaver__backEnd.dao.entities.Interest;
 import com.example.SurplusSaver__backEnd.dao.entities.Post;
 import com.example.SurplusSaver__backEnd.dao.repositories.InterestRepository;
 import com.example.SurplusSaver__backEnd.payload.InterestInfoDto;
+import com.example.SurplusSaver__backEnd.payload.InterestWithItemsDto;
 import com.example.SurplusSaver__backEnd.services.InterestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -172,5 +173,13 @@ public class InterestController {
         // If the interest was not successfully cancelled for another reason, return an error response
         return new ResponseEntity<>("Failed to cancel interest", HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @PreAuthorize("hasRole('ROLE_CONSUMER')")
+    @GetMapping("/user/consumer")
+    public ResponseEntity<List<InterestWithItemsDto>> getInterestsByUserId(@RequestHeader("Authorization") String token) {
+        List<InterestWithItemsDto> interests = interestService.getInterestsAndItemsByUserId(token);
+        return new ResponseEntity<>(interests, HttpStatus.OK);
+    }
+
 
 }
