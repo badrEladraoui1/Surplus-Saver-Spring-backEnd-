@@ -30,7 +30,6 @@ public class Post {
     private String postDescription;
     @CreationTimestamp
     private LocalDateTime postedAt;
-
     private String userProfilePictureUrl;
 
 
