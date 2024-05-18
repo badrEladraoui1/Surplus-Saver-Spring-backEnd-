@@ -23,4 +23,5 @@ public interface PostService {
     List<Post> getSavedPosts(String token);
 
     String removeSavedPost(String token, Long postId);
+    List<Post> searchPosts(String token, String keyword);
 }

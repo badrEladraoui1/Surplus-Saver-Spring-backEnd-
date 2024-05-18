@@ -18,10 +18,8 @@ public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String itemName;
     private String itemType;
     private String quantity;
     private String description;
-    private String ItemPictureUrl;
 }

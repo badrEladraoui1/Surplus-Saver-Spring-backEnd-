@@ -116,6 +116,7 @@ public class PostServiceImpl implements PostService {
         }
         return post;
     }
+
     @Override
     public List<Post> getAllPosts(String token) {
         String jwt = token.substring(7); // Remove the "Bearer " prefix
@@ -176,6 +177,13 @@ public class PostServiceImpl implements PostService {
         } else {
             return "Post is not saved!";
         }
+    }
+
+    public List<Post> searchPosts(String token, String keyword) {
+        String jwt = token.substring(7); // Remove the "Bearer " prefix
+        Long userId = jwtTokenProvider.getUserIdFromToken(jwt);
+        userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User not found with id : " + userId));
+        return postRepository.searchByKeyword(keyword);
     }
 
 

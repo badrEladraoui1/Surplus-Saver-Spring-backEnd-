@@ -38,28 +38,41 @@ public class PostController {
         this.interestService = interestService;
     }
 
+
+
     // create SurplusSaver post rest api
 
-    @PreAuthorize("hasRole('ROLE_RESTAURANT')")
-    @PostMapping("/createPost")
-    public ResponseEntity<?> createPost(@RequestHeader("Authorization") String token, @RequestBody Post post) {
-//        String response =  postService.createPost(token, post);
+//    @PreAuthorize("hasRole('ROLE_RESTAURANT')")
+//    @PostMapping("/createPost")
+//    public ResponseEntity<?> createPost(@RequestHeader("Authorization") String token, @RequestBody Post post) {
+//
+//        // Create the post
+//        String response = postService.createPost(token, post);
+//
 //        return new ResponseEntity<>(response, HttpStatus.CREATED);
-        // Get the user's profile picture URL
-//        String userProfilePictureUrl = userService.getUserProfilePictureUrl(token);
-//
-//        if (userProfilePictureUrl == null || userProfilePictureUrl.isEmpty()) {
-//            userProfilePictureUrl = "/images/default_restau_image.jpg";
-//        }
-//
-//        // Set the user's profile picture URL in the post
-//        post.setUserProfilePictureUrl(userProfilePictureUrl);
+//    }
+@PreAuthorize("hasRole('ROLE_RESTAURANT')")
+@PostMapping("/createPost")
+public ResponseEntity<?> createPost(@RequestHeader("Authorization") String token, @RequestBody Post post) {
+    // Get the user's profile picture URL
+    String userProfilePictureUrl = userService.getUserProfilePictureUrl(token);
 
-        // Create the post
-        String response = postService.createPost(token, post);
-
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    // If the user's profile picture URL is null or empty, set a default picture URL
+    if (userProfilePictureUrl == null || userProfilePictureUrl.isEmpty()) {
+        userProfilePictureUrl = "/images/default_restau_image.jpg";
     }
+
+    // Set the user's profile picture URL in the post
+    post.setUserProfilePictureUrl(userProfilePictureUrl);
+
+    // Create the post
+    String response = postService.createPost(token, post);
+
+    return new ResponseEntity<>(response, HttpStatus.CREATED);
+}
+
+
+
 
     @PreAuthorize("hasRole('ROLE_RESTAURANT')")
     @GetMapping("/viewPersonalPosts")
@@ -131,5 +144,11 @@ public class PostController {
         // Return a response to the client
         return new ResponseEntity<>(savedInterest, HttpStatus.CREATED);
     }
+    @GetMapping("/search")
+    public ResponseEntity<List<Post>> searchWantedPosts(@RequestHeader("Authorization") String token,@RequestParam String keyword) {
+        List<Post> posts = postService.searchPosts(token, keyword);
+        return new ResponseEntity<>(posts, HttpStatus.OK);
+    }
+
 
 }

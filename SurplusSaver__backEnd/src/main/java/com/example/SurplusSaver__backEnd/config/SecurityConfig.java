@@ -99,7 +99,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.DELETE, "/SurplusSaverApiV1/users/deleteUser/{id}").hasAnyAuthority("ROLE_ADMIN")
                                 .requestMatchers(HttpMethod.GET, "/SurplusSaverApiV1/users/profile").hasAnyAuthority("ROLE_RESTAURANT", "ROLE_CONSUMER")
                                 .requestMatchers(HttpMethod.POST, "/SurplusSaverApiV1/users/update").hasAnyAuthority("ROLE_RESTAURANT", "ROLE_CONSUMER")
-                                .requestMatchers(HttpMethod.GET, "/SurplusSaverApiV1/images/{filename:.+}").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/SurplusSaverApiV1/images/{filename:.+}").hasAnyAuthority("ROLE_RESTAURANT", "ROLE_CONSUMER")
                                 .requestMatchers(HttpMethod.POST, "/SurplusSaverApiV1/items/uploadImage").hasAuthority("ROLE_RESTAURANT")
                                 .requestMatchers(HttpMethod.GET, "/SurplusSaverApiV1/items/{id}").hasAnyAuthority("ROLE_RESTAURANT", "ROLE_CONSUMER")
                                 .requestMatchers(HttpMethod.POST, "/SurplusSaverApiV1/interests/expressInterest").hasAuthority("ROLE_CONSUMER")
@@ -108,6 +108,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.POST, "/SurplusSaverApiV1/interests/{interestId}/cancel").hasAuthority("ROLE_RESTAURANT")
                                 .requestMatchers(HttpMethod.GET, "/SurplusSaverApiV1/interests/user/consumer").hasAuthority("ROLE_CONSUMER")
                                 .requestMatchers(HttpMethod.GET, "/SurplusSaverApiV1/posts/reactions").hasAnyAuthority("ROLE_RESTAURANT", "ROLE_CONSUMER")
+                                .requestMatchers(HttpMethod.GET, "/SurplusSaverApiV1/posts/search").hasAnyAuthority("ROLE_RESTAURANT", "ROLE_CONSUMER")
                                 .anyRequest().authenticated()
 
                 ).exceptionHandling(exception -> exception
