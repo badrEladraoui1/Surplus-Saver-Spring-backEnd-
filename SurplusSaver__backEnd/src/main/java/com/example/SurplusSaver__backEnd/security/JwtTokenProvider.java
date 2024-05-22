@@ -47,10 +47,10 @@ public class JwtTokenProvider {
 
         String token = Jwts.builder()
                 .subject(username)
-                .claim("id", id) // Include the user's ID as a claim
-                .claim("role", role) // Add the role as a claim
-                .claim("phone", phone) // Add the phone as a claim
-                .claim("address", address) // Add the address as a claim
+                .claim("id", id)
+                .claim("role", role)
+                .claim("phone", phone)
+                .claim("address", address)
                 .issuedAt(new Date())
                 .expiration(expireDate)
                 .signWith(key())
