@@ -181,5 +181,26 @@ public class InterestController {
         return new ResponseEntity<>(interests, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_CONSUMER')")
+    @GetMapping("/user/consumer/accepted")
+    public ResponseEntity<List<InterestWithItemsDto>> getAcceptedInterestsByUserId(@RequestHeader("Authorization") String token) {
+        List<InterestWithItemsDto> interests = interestService.getAcceptedInterestsByUserId(token);
+        return new ResponseEntity<>(interests, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_CONSUMER')")
+    @GetMapping("/user/consumer/pending")
+    public ResponseEntity<List<InterestWithItemsDto>> getPendingInterestsByUserId(@RequestHeader("Authorization") String token) {
+        List<InterestWithItemsDto> interests = interestService.getPendingInterestsByUserId(token);
+        return new ResponseEntity<>(interests, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_CONSUMER')")
+    @GetMapping("/user/consumer/cancelled")
+    public ResponseEntity<List<InterestWithItemsDto>> getCancelledInterestsByUserId(@RequestHeader("Authorization") String token) {
+        List<InterestWithItemsDto> interests = interestService.getCancelledInterestsByUserId(token);
+        return new ResponseEntity<>(interests, HttpStatus.OK);
+    }
+
 
 }

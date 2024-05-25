@@ -109,6 +109,9 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "/SurplusSaverApiV1/interests/user/consumer").hasAuthority("ROLE_CONSUMER")
                                 .requestMatchers(HttpMethod.GET, "/SurplusSaverApiV1/posts/reactions").hasAnyAuthority("ROLE_RESTAURANT", "ROLE_CONSUMER")
                                 .requestMatchers(HttpMethod.GET, "/SurplusSaverApiV1/posts/search").hasAnyAuthority("ROLE_RESTAURANT", "ROLE_CONSUMER")
+                                .requestMatchers(HttpMethod.GET, "/SurplusSaverApiV1/interests/user/consumer/accepted").hasAuthority("ROLE_CONSUMER")
+                                .requestMatchers(HttpMethod.GET, "/SurplusSaverApiV1/interests/user/consumer/pending").hasAuthority("ROLE_CONSUMER")
+                                .requestMatchers(HttpMethod.GET, "/SurplusSaverApiV1/interests/user/consumer/cancelled").hasAuthority("ROLE_CONSUMER")
                                 .anyRequest().authenticated()
 
                 ).exceptionHandling(exception -> exception

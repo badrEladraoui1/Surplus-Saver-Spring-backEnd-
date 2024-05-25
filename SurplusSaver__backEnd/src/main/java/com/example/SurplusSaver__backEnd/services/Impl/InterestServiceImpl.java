@@ -347,7 +347,7 @@ public class InterestServiceImpl implements InterestService {
         return false;
     }
 
-
+    // not using it rn
     public List<InterestWithItemsDto> getInterestsAndItemsByUserId(String token) {
         // Extract the user ID from the token
         String jwt = token.substring(7); // Remove the "Bearer " prefix
@@ -383,6 +383,62 @@ public class InterestServiceImpl implements InterestService {
         }
 
         return interestDtos;
+    }
+
+
+
+
+    private List<InterestWithItemsDto> getInterestsByUserIdAndStatus(String token, String status) {
+        // Extract the user ID from the token
+        String jwt = token.substring(7); // Remove the "Bearer " prefix
+        Long userId = jwtTokenProvider.getUserIdFromToken(jwt);
+
+        // Fetch the interests for the user
+        List<Interest> interests = interestRepository.findByUserIdAndStatus(userId, status);
+
+        // Map each Interest to an InterestWithItemsDto
+        List<InterestWithItemsDto> interestDtos = new ArrayList<>();
+        for (Interest interest : interests) {
+            // Fetch the Post object for the interest
+            Optional<Post> optionalPost = postRepository.findById(interest.getPostId());
+            if (optionalPost.isPresent()) {
+                Post post = optionalPost.get();
+                // Fetch the User object for the post
+                Optional<User> optionalUser = Optional.ofNullable(post.getUser());
+                if (optionalUser.isPresent()) {
+                    User user = optionalUser.get();
+                    // Create an InterestWithItemsDto and set its fields
+                    InterestWithItemsDto interestDto = new InterestWithItemsDto();
+                    interestDto.setId(interest.getId());
+                    interestDto.setUserId(interest.getUserId());
+                    interestDto.setPostId(interest.getPostId());
+                    interestDto.setStatus(interest.getStatus());
+                    interestDto.setItems(post.getItems()); // Set the items field with the items of the post
+                    interestDto.setUsername(user.getUsername()); // Set the username field with the username of the user
+                    interestDto.setPhone(user.getPhone()); // Set the phone field with the phone of the user
+                    // Add the InterestWithItemsDto to the list
+                    interestDtos.add(interestDto);
+                }
+            }
+        }
+
+        return interestDtos;
+    }
+
+
+    @Override
+    public List<InterestWithItemsDto> getAcceptedInterestsByUserId(String token) {
+        return getInterestsByUserIdAndStatus(token, "accepted");
+    }
+
+    @Override
+    public List<InterestWithItemsDto> getPendingInterestsByUserId(String token) {
+        return getInterestsByUserIdAndStatus(token, "pending");
+    }
+
+    @Override
+    public List<InterestWithItemsDto> getCancelledInterestsByUserId(String token) {
+        return getInterestsByUserIdAndStatus(token, "cancelled");
     }
 
 }

@@ -22,4 +22,8 @@ public interface InterestService {
     boolean cancelInterest(Long interestId);
 
     List<InterestWithItemsDto> getInterestsAndItemsByUserId(String token);
+
+    List<InterestWithItemsDto> getAcceptedInterestsByUserId(String token);
+    List<InterestWithItemsDto> getPendingInterestsByUserId(String token);
+    public List<InterestWithItemsDto> getCancelledInterestsByUserId(String token);
 }
