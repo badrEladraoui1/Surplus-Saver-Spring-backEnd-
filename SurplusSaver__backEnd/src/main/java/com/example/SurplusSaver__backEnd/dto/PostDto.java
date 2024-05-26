@@ -1,4 +1,4 @@
-package com.example.SurplusSaver__backEnd.payload;
+package com.example.SurplusSaver__backEnd.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

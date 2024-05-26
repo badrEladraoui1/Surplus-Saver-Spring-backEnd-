@@ -124,23 +124,6 @@ public class SecurityConfig {
 
         return http.build();
     }
-
-//    @Bean
-//    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//
-//
-//        http.authorizeHttpRequests((authorize) ->
-//                //authorize.anyRequest().authenticated()
-//                authorize.requestMatchers("/SurplusSaverApiV1/auth/signup/{role}").permitAll()
-//                        .requestMatchers("/SurplusSaverApiV1/auth/signin").permitAll()
-//                        .requestMatchers(HttpMethod.GET, "/SurplusSaverApiV1/**").permitAll()
-//                        .anyRequest().authenticated()
-//
-//
-//        ).csrf(AbstractHttpConfigurer::disable);
-//
-//        return http.build();
-//    }
 }
 
 // In summary, the SecurityConfig class sets up security configurations for your Spring Boot application, including defining beans for password encoding,

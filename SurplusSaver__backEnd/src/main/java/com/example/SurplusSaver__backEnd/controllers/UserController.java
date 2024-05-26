@@ -6,7 +6,6 @@ import com.example.SurplusSaver__backEnd.services.AuthService;
 import com.example.SurplusSaver__backEnd.services.ImageService;
 import com.example.SurplusSaver__backEnd.services.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +21,6 @@ public class UserController {
 
     @Autowired
     UserService userService;
-
     AuthService authService;
     ImageService imageService;
 
@@ -47,19 +45,20 @@ public class UserController {
         return new ResponseEntity<>("User will be deleted in a moment !", HttpStatus.OK);
     }
 
-    @GetMapping("/profile")
-    public ResponseEntity<?> getUserProfile(@RequestHeader("Authorization") String token) {
-        User user = userService.getUserById(token);
+//    @GetMapping("/profile")
+//    public ResponseEntity<?> getUserProfile(@RequestHeader("Authorization") String token) {
+//        User user = userService.getUserById(token);
+//
+//        // Check if the user exists
+//        if (user == null) {
+//            return ResponseEntity.notFound().build();
+//        }
+//
+//        // Return the user
+//        return ResponseEntity.ok(user);
+//    }
 
-        // Check if the user exists
-        if (user == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        // Return the user
-        return ResponseEntity.ok(user);
-    }
-
+    // update profile pic
     @PostMapping("/update")
     public ResponseEntity<?> updateUserProfilePic(@RequestHeader("Authorization") String token, @RequestParam("image") MultipartFile image) throws JsonProcessingException {
         User user = userService.getUserById(token);

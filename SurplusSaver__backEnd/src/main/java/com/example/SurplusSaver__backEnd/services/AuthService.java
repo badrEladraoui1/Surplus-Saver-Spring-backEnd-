@@ -2,8 +2,8 @@ package com.example.SurplusSaver__backEnd.services;
 
 
 import com.example.SurplusSaver__backEnd.dao.entities.User;
-import com.example.SurplusSaver__backEnd.payload.LoginDto;
-import com.example.SurplusSaver__backEnd.payload.SignUpDto;
+import com.example.SurplusSaver__backEnd.dto.LoginDto;
+import com.example.SurplusSaver__backEnd.dto.SignUpDto;
 
 public interface AuthService {
     String login(LoginDto loginDto);

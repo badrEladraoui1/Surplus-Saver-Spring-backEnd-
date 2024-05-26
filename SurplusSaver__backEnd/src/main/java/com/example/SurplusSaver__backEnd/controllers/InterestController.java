@@ -1,10 +1,9 @@
 package com.example.SurplusSaver__backEnd.controllers;
 
 import com.example.SurplusSaver__backEnd.dao.entities.Interest;
-import com.example.SurplusSaver__backEnd.dao.entities.Post;
 import com.example.SurplusSaver__backEnd.dao.repositories.InterestRepository;
-import com.example.SurplusSaver__backEnd.payload.InterestInfoDto;
-import com.example.SurplusSaver__backEnd.payload.InterestWithItemsDto;
+import com.example.SurplusSaver__backEnd.dto.InterestInfoDto;
+import com.example.SurplusSaver__backEnd.dto.InterestWithItemsDto;
 import com.example.SurplusSaver__backEnd.services.InterestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -58,12 +57,7 @@ public class InterestController {
     }
 
 
-    //    @PreAuthorize("hasRole('ROLE_RESTAURANT')")
-//    @GetMapping("/myInterests")
-//    public ResponseEntity<List<Post>> getMyInterests(@RequestHeader("Authorization") String token) {
-//        List<Post> posts = interestService.getMyInterests(token);
-//        return new ResponseEntity<>(posts, HttpStatus.OK);
-//    }
+
     @PreAuthorize("hasRole('ROLE_RESTAURANT')")
     @GetMapping("/myInterests")
     public ResponseEntity<List<InterestInfoDto>> getMyInterests(@RequestHeader("Authorization") String token) {
@@ -71,52 +65,6 @@ public class InterestController {
         return new ResponseEntity<>(interestInfos, HttpStatus.OK);
     }
 
-
-//    @PreAuthorize("hasRole('ROLE_RESTAURANT')")
-//    @PostMapping("/{interestId}/accept")
-//    public ResponseEntity<?> acceptInterest(@PathVariable Long interestId) {
-//        // Call the service method to accept the interest
-//        boolean isAccepted = interestService.acceptInterest(interestId);
-//
-//        // If the interest was successfully accepted, return a success response
-//        if (isAccepted) {
-//            return new ResponseEntity<>("Interest accepted successfully", HttpStatus.OK);
-//        }
-//
-//        // If the interest was not successfully accepted because it was already accepted or cancelled, return a different error response
-//        Optional<Interest> optionalInterest = interestRepository.findById(interestId);
-//        if (optionalInterest.isPresent() &&
-//                optionalInterest.get().getStatus() != null &&
-//                (optionalInterest.get().getStatus().equals("accepted") || optionalInterest.get().getStatus().equals("cancelled"))) {
-//            return new ResponseEntity<>("Interest has already been accepted or cancelled", HttpStatus.BAD_REQUEST);
-//        }
-//
-//        // If the interest was not successfully accepted for another reason, return an error response
-//        return new ResponseEntity<>("Failed to accept interest", HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
-//
-//    @PreAuthorize("hasRole('ROLE_RESTAURANT')")
-//    @PostMapping("/{interestId}/cancel")
-//    public ResponseEntity<?> cancelInterest(@PathVariable Long interestId) {
-//        // Call the service method to cancel the interest
-//        boolean isCancelled = interestService.cancelInterest(interestId);
-//
-//        // If the interest was successfully cancelled, return a success response
-//        if (isCancelled) {
-//            return new ResponseEntity<>("Interest cancelled successfully", HttpStatus.OK);
-//        }
-//
-//        // If the interest was not successfully cancelled because it was already accepted or cancelled, return a different error response
-//        Optional<Interest> optionalInterest = interestRepository.findById(interestId);
-//        if (optionalInterest.isPresent() &&
-//                optionalInterest.get().getStatus() != null &&
-//                (optionalInterest.get().getStatus().equals("accepted") || optionalInterest.get().getStatus().equals("cancelled"))) {
-//            return new ResponseEntity<>("Interest has already been accepted or cancelled", HttpStatus.BAD_REQUEST);
-//        }
-//
-//        // If the interest was not successfully cancelled for another reason, return an error response
-//        return new ResponseEntity<>("Failed to cancel interest", HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
 
     @PreAuthorize("hasRole('ROLE_RESTAURANT')")
     @PostMapping("/{interestId}/accept")
@@ -161,7 +109,7 @@ public class InterestController {
 
             // If the interest was successfully cancelled, return a success response
             if (isCancelled) {
-                return new ResponseEntity<>("Interest cancelled successfully", HttpStatus.OK);
+                return new ResponseEntity<>("Interest denied successfully", HttpStatus.OK);
             }
 
             // If the interest was not successfully cancelled because it was already accepted or cancelled, return a different error response

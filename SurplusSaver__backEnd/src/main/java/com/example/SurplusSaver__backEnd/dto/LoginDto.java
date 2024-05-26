@@ -1,4 +1,4 @@
-package com.example.SurplusSaver__backEnd.payload;
+package com.example.SurplusSaver__backEnd.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class JwtAuthResponse {
-    private String accessToken;
-    private String tokenType = "Bearer";
+public class LoginDto {
+    private String usernameOrEmail;
+    private String password;
 }

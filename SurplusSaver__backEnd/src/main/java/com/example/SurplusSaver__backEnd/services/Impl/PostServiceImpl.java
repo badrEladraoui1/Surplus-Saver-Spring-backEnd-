@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -117,12 +119,43 @@ public class PostServiceImpl implements PostService {
         return post;
     }
 
+    // TODO : LATEST ONE USED
+//    @Override
+//    public List<Post> getAllPosts(String token) {
+//        String jwt = token.substring(7); // Remove the "Bearer " prefix
+//        Long userId = jwtTokenProvider.getUserIdFromToken(jwt);
+//        User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User not found with id : " + userId));
+//        List<Post> posts = postRepository.findAllBy();
+//
+//        posts.forEach(post -> {
+//            if (post.getUserProfilePictureUrl() == null || post.getUserProfilePictureUrl().isEmpty()) {
+//                post.setUserProfilePictureUrl("images/default_restau_image.jpg");
+//            }
+//        });
+//
+//        return posts;
+//    }
+
     @Override
     public List<Post> getAllPosts(String token) {
         String jwt = token.substring(7); // Remove the "Bearer " prefix
         Long userId = jwtTokenProvider.getUserIdFromToken(jwt);
         User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User not found with id : " + userId));
         List<Post> posts = postRepository.findAllBy();
+
+        // Separate posts with "undefined" postedAt attribute
+        List<Post> undefinedPosts = posts.stream()
+                .filter(post -> "undefined".equals(post.getPostedAt()))
+                .toList();
+
+        // Remove undefined posts from the original list
+        posts.removeAll(undefinedPosts);
+
+        // Sort the posts by postedAt in descending order
+        posts.sort(Comparator.comparing(Post::getPostedAt).reversed());
+
+        // Add undefined posts back to the end of the list
+        posts.addAll(undefinedPosts);
 
         posts.forEach(post -> {
             if (post.getUserProfilePictureUrl() == null || post.getUserProfilePictureUrl().isEmpty()) {
@@ -132,6 +165,7 @@ public class PostServiceImpl implements PostService {
 
         return posts;
     }
+
 //    @Override
 //    public List<Post> getAllPosts(String token) {
 //        String jwt = token.substring(7); // Remove the "Bearer " prefix
@@ -139,6 +173,8 @@ public class PostServiceImpl implements PostService {
 //        User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User not found with id : " + userId));
 //        return postRepository.findAllBy();
 //    }
+
+
 
     public String savePost(String token, Long postId) {
         String jwt = token.substring(7); // Remove the "Bearer " prefix

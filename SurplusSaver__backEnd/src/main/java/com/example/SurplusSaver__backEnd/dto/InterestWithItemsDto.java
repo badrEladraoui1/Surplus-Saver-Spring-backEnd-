@@ -1,4 +1,4 @@
-package com.example.SurplusSaver__backEnd.payload;
+package com.example.SurplusSaver__backEnd.dto;
 
 import com.example.SurplusSaver__backEnd.dao.entities.Item;
 import lombok.Getter;

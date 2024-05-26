@@ -1,7 +1,7 @@
 package com.example.SurplusSaver__backEnd.controllers;
 
 import com.example.SurplusSaver__backEnd.dao.entities.Reaction;
-import com.example.SurplusSaver__backEnd.payload.PostWithReactionsDto;
+import com.example.SurplusSaver__backEnd.dto.PostWithReactionsDto;
 import com.example.SurplusSaver__backEnd.services.ReactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

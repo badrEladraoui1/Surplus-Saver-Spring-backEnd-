@@ -15,7 +15,6 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
-
     private final RoleRepository roleRepository;
 
     @Autowired

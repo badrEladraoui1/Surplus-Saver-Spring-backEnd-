@@ -6,9 +6,9 @@ import com.example.SurplusSaver__backEnd.dao.entities.User;
 import com.example.SurplusSaver__backEnd.dao.repositories.InterestRepository;
 import com.example.SurplusSaver__backEnd.dao.repositories.PostRepository;
 import com.example.SurplusSaver__backEnd.dao.repositories.UserRepository;
-import com.example.SurplusSaver__backEnd.payload.InterestInfoDto;
-import com.example.SurplusSaver__backEnd.payload.InterestWithItemsDto;
-import com.example.SurplusSaver__backEnd.payload.UserDtoInterests;
+import com.example.SurplusSaver__backEnd.dto.InterestInfoDto;
+import com.example.SurplusSaver__backEnd.dto.InterestWithItemsDto;
+import com.example.SurplusSaver__backEnd.dto.UserDtoInterests;
 import com.example.SurplusSaver__backEnd.security.JwtTokenProvider;
 import com.example.SurplusSaver__backEnd.services.InterestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -268,7 +268,11 @@ public class InterestServiceImpl implements InterestService {
         List<Long> postIds = userPosts.stream().map(Post::getId).collect(Collectors.toList());
 
         // Fetch the Interest objects that match the user's posts
-        List<Interest> interests = interestRepository.findByPostIdIn(postIds);
+
+
+//        List<Interest> interests = interestRepository.findByPostIdIn(postIds);
+         List<Interest> interests = interestRepository.findByPostIdInAndStatus(postIds, "pending");
+
 
         // Create a list of InterestInfo objects
         List<InterestInfoDto> interestInfos = new ArrayList<>();
@@ -314,10 +318,15 @@ public class InterestServiceImpl implements InterestService {
                 // If the interest is already accepted or cancelled, return false
                 return false;
             }
+            // TODO : RETURN AFTER
             // Otherwise, update its status to "accepted" and save it
             interest.setStatus("accepted");
             interestRepository.save(interest);
             return true;
+
+//            // Otherwise, delete it
+//            interestRepository.delete(interest);
+//            return true;
         }
 
         // If the Interest object does not exist, return false
@@ -337,10 +346,15 @@ public class InterestServiceImpl implements InterestService {
                 // If the interest is already accepted or cancelled, return false
                 return false;
             }
+            // TODO : RETURN AFTER
             // Otherwise, update its status to "cancelled" and save it
             interest.setStatus("cancelled");
             interestRepository.save(interest);
             return true;
+
+//            // Otherwise, delete it
+//            interestRepository.delete(interest);
+//            return true;
         }
 
         // If the Interest object does not exist, return false

@@ -38,19 +38,6 @@ public class PostController {
         this.interestService = interestService;
     }
 
-
-
-    // create SurplusSaver post rest api
-
-//    @PreAuthorize("hasRole('ROLE_RESTAURANT')")
-//    @PostMapping("/createPost")
-//    public ResponseEntity<?> createPost(@RequestHeader("Authorization") String token, @RequestBody Post post) {
-//
-//        // Create the post
-//        String response = postService.createPost(token, post);
-//
-//        return new ResponseEntity<>(response, HttpStatus.CREATED);
-//    }
 @PreAuthorize("hasRole('ROLE_RESTAURANT')")
 @PostMapping("/createPost")
 public ResponseEntity<?> createPost(@RequestHeader("Authorization") String token, @RequestBody Post post) {

@@ -1,7 +1,6 @@
-package com.example.SurplusSaver__backEnd.payload;
+package com.example.SurplusSaver__backEnd.dto;
 
 import com.example.SurplusSaver__backEnd.dao.entities.Post;
-import com.example.SurplusSaver__backEnd.dao.entities.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
