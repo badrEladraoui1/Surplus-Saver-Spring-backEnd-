@@ -16,5 +16,4 @@ public class PostDto {
     private String postDescription;
     private List<ItemDto> items;
 
-    // getters and setters
 }

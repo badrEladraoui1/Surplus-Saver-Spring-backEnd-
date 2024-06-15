@@ -45,18 +45,18 @@ public class UserController {
         return new ResponseEntity<>("User will be deleted in a moment !", HttpStatus.OK);
     }
 
-//    @GetMapping("/profile")
-//    public ResponseEntity<?> getUserProfile(@RequestHeader("Authorization") String token) {
-//        User user = userService.getUserById(token);
-//
-//        // Check if the user exists
-//        if (user == null) {
-//            return ResponseEntity.notFound().build();
-//        }
-//
-//        // Return the user
-//        return ResponseEntity.ok(user);
-//    }
+    @GetMapping("/profile")
+    public ResponseEntity<?> getUserProfile(@RequestHeader("Authorization") String token) {
+        User user = userService.getUserById(token);
+
+        // Check if the user exists
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        // Return the user
+        return ResponseEntity.ok(user);
+    }
 
     // update profile pic
     @PostMapping("/update")

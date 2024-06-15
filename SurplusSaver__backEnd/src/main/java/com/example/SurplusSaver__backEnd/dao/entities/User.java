@@ -52,7 +52,5 @@ public class User  {
             inverseJoinColumns = @JoinColumn(name = "post_id"))
     private List<Post> savedPosts;
 
-//    @OneToOne(mappedBy = "users_id", cascade = CascadeType.ALL)
-//    private Image profileImage; //mapping with Image entity
 
 }
